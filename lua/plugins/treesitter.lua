@@ -141,7 +141,7 @@ return { -- Highlight, edit, and navigate code
 					["<leader>p"] = { query = "@parameter.inner", desc = "Swap Current Parameter With Next" },
 				},
 				swap_previous = {
-					["<leader>p"] = { query = "@parameter.inner", desc = "Swap Current Parameter With Previous" },
+					["<leader>P"] = { query = "@parameter.inner", desc = "Swap Current Parameter With Previous" },
 				},
 			},
 		},

@@ -2,48 +2,43 @@ return {
 	"seblj/roslyn.nvim",
 	-- event = "VeryLazy",
 	ft = "cs",
-	dependencies = {
-		{
-			"tris203/rzls.nvim",
-			ft = "cshtml",
-			-- dev = true,
-			config = function()
-				require("rzls").setup({
-					on_attach = require("plugins.lsp.rosly-on-attach").on_attach,
-					capabilities = require("plugins.lsp.capabilities").get_capabilities(),
-				})
-			end,
-		},
-		{ "j-hui/fidget.nvim", opts = {} },
-	},
+	-- dependencies = {
+	-- 	{
+	-- 		"tris203/rzls.nvim",
+	-- 		ft = "cshtml",
+	-- 		-- dev = true,
+	-- 		config = function()
+	-- 			require("rzls").setup({
+	-- 				on_attach = require("plugins.lsp.rosly-on-attach").on_attach,
+	-- 				capabilities = require("plugins.lsp.capabilities").get_capabilities(),
+	-- 			})
+	-- 		end,
+	-- 	},
+	-- 	{ "j-hui/fidget.nvim", opts = {} },
+	-- },
 	config = function()
 		require("roslyn").setup({
 			args = {
 				"--logLevel=Information",
 				"--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
-				"--razorSourceGenerator=" .. vim.fs.joinpath(
-					vim.fn.stdpath("data") --[[@as string]],
-					"mason",
-					"packages",
-					"roslyn",
-					"libexec",
-					"Microsoft.CodeAnalysis.Razor.Compiler.dll"
-				),
-				"--razorDesignTimePath=" .. vim.fs.joinpath(
-					vim.fn.stdpath("data") --[[@as string]],
-					"mason",
-					"packages",
-					"rzls",
-					"libexec",
-					"Targets",
-					"Microsoft.NET.Sdk.Razor.DesignTime.targets"
-				),
+				"--stdio",
 			},
 			---@diagnostic disable-next-line: missing-fields
 			config = {
 				on_attach = require("plugins.lsp.rosly-on-attach").on_attach,
 				capabilities = require("plugins.lsp.capabilities").get_capabilities(),
-				handlers = require("rzls.roslyn_handlers"),
+				handlers = {
+					function()
+						vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+							border = "rounded",
+							-- max_width = 10,
+							max_width = math.floor(vim.o.columns * 0.5),
+							max_height = math.floor(vim.o.lines * 0.8),
+							-- wrap_at = 1,
+							warp = false,
+						})
+					end,
+				},
 				settings = {
 					["csharp|inlay_hints"] = {
 						csharp_enable_inlay_hints_for_implicit_object_creation = true,

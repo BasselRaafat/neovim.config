@@ -13,7 +13,6 @@ vim.opt.number = true
 
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
-vim.opt.relativenumber = true
 
 -- optionally enable 24-bit colour
 vim.opt.termguicolors = true
@@ -79,6 +78,13 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
 	callback = function()
 		vim.highlight.on_yank()
+	end,
+})
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "lspinfo", -- Applies specifically to LSP-related popups
+	callback = function()
+		vim.wo.wrap = true
+		vim.wo.linebreak = true -- Prevent wrapping in the middle of a word
 	end,
 })
 -- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"

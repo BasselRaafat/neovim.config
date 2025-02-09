@@ -83,6 +83,23 @@ return {
 			handlers = {
 				function(server_name)
 					local server = servers[server_name] or {}
+					vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+						border = "rounded",
+						-- max_width = 10,
+						max_width = math.floor(vim.o.columns * 0.5),
+						max_height = math.floor(vim.o.lines * 0.8),
+						-- wrap_at = 1,
+						warp = false,
+					})
+
+					-- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+					-- 	title = "Signature help",
+					-- 	border = "single",
+					-- 	title_pos = "left",
+					-- 	-- max_width = 100,
+					-- 	max_width = math.floor(vim.o.columns * 0.4),
+					-- 	max_height = math.floor(vim.o.lines * 0.5),
+					-- })
 					-- This handles overriding only values explicitly passed
 					-- by the server configuration above. Useful when disabling
 					-- certain features of an LSP (for example, turning off formatting for ts_ls)
