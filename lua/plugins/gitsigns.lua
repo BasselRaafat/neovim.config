@@ -45,11 +45,12 @@ local on_attach = function(bufnr)
 		gitsigns.blame_line({ full = true })
 	end, { desc = "Blame Line" })
 
-	map("n", "<leader>hd", gitsigns.diffthis, { desc = "Diff This" })
+	map("n", "<C-w>D", ":wincmd p | q<CR>", { desc = "Exit Diff This" })
+	map("n", "<leader>hd", gitsigns.diffthis, { desc = "Diff With Index" })
 
 	map("n", "<leader>hD", function()
 		gitsigns.diffthis("~")
-	end, { desc = "Diff This ~" })
+	end, { desc = "Diff Changes With Last Commit" })
 
 	map("n", "<leader>hQ", function()
 		gitsigns.setqflist("all")
