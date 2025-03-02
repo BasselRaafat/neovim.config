@@ -1,6 +1,6 @@
 return {
 	"seblj/roslyn.nvim",
-	-- event = "VeryLazy",
+	event = "VeryLazy",
 	ft = "cs",
 	-- dependencies = {
 	-- 	{
