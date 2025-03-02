@@ -59,7 +59,7 @@ local on_attach = function(bufnr)
 
 	-- Toggles
 	map("n", "<leader>tb", gitsigns.toggle_current_line_blame, { desc = "Toggle Current Line Blame" })
-	map("n", "<leader>td", gitsigns.preview_hunk_inline, { desc = "Preview Hunk Inline" })
+	map("n", "<leader>ti", gitsigns.preview_hunk_inline, { desc = "Preview Hunk Inline" })
 	map("n", "<leader>tw", gitsigns.toggle_word_diff, { desc = "Toggle Word Diff" })
 
 	-- Text object
