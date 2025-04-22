@@ -77,7 +77,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
 	callback = function()
-		vim.highlight.on_yank()
+		vim.hl.on_yank()
 	end,
 })
 vim.api.nvim_create_autocmd("FileType", {
@@ -110,3 +110,8 @@ vim.o.timeoutlen = 250
 -- vim.o.cmdheight = 0
 vim.o.laststatus = 3
 vim.opt.fillchars = { eob = " " }
+vim.diagnostic.config({
+	virtual_text = {
+		severity = { min = vim.diagnostic.severity.WARN },
+	},
+})
