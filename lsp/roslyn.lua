@@ -9,7 +9,7 @@
 -- 	end,
 -- }
 
-local capabilities = require("plugins.lsp.capabilities")
+local capabilities = require("config.lsp.capabilities").capabilities
 capabilities.textDocument.diagnostic.dynamicRegistration = true
 
 return {
