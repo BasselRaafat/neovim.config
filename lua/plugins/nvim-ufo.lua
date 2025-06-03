@@ -35,17 +35,15 @@ return {
 			return newVirtText
 		end
 		local ufo = require("ufo")
-		---@diagnostic disable-next-line: missing-fields
 		ufo.setup({
 			fold_virt_text_handler = handler,
 			open_fold_hl_timeout = 150,
-			-- close_fold_kinds_for_ft = {
-			-- default = { "imports", "comment" },
-			---@diagnostic disable-next-line: assign-type-mismatch
-			-- json = { "array" },
-			-- c = { "comment", "region" },
-			-- cs = { "region" },
-			-- },
+			close_fold_kinds_for_ft = {
+				default = { "imports", "comment" },
+				json = { "array" },
+				c = { "comment", "region" },
+				cs = { "region" },
+			},
 			preview = {
 				win_config = {
 					border = { "", "─", "", "", "", "─", "", "" },
@@ -59,7 +57,7 @@ return {
 					jumpBot = "]",
 				},
 			},
-			provider_selector = function(bufnr, filetype, buftype)
+			provider_selector = function(_, filetype, _)
 				-- if you prefer treesitter provider rather than lsp,
 				-- return ftMap[filetype] or {'treesitter', 'indent'}
 				return ftMap[filetype]
@@ -78,5 +76,7 @@ return {
 				vim.lsp.buf.hover()
 			end
 		end)
+		-- vim.api.nvim_set_hl(0, "MoreMsg", { fg = "#666666", bg = "NONE" }) -- Dim suffix
+		vim.api.nvim_set_hl(0, "Folded", { fg = "#666666", bg = "NONE" }) -- Dim folded lines
 	end,
 }

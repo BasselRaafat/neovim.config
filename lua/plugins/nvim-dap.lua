@@ -1,5 +1,6 @@
 return {
 	"mfussenegger/nvim-dap",
+	enabled = false,
 	config = function()
 		dap = require("dap")
 		dap.adapters.coreclr = {

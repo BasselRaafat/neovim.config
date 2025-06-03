@@ -8,17 +8,17 @@ local on_attach = function(bufnr)
 	end
 
 	-- Navigation
-	map("n", "]c", function()
+	map("n", "]h", function()
 		if vim.wo.diff then
-			vim.cmd.normal({ "]c", bang = true })
+			vim.cmd.normal({ "]h", bang = true })
 		else
 			gitsigns.nav_hunk("next")
 		end
 	end, { desc = "Next Hunk" })
 
-	map("n", "[c", function()
+	map("n", "[h", function()
 		if vim.wo.diff then
-			vim.cmd.normal({ "[c", bang = true })
+			vim.cmd.normal({ "[h", bang = true })
 		else
 			gitsigns.nav_hunk("prev")
 		end
@@ -62,13 +62,14 @@ local on_attach = function(bufnr)
 	map("n", "<leader>ti", gitsigns.preview_hunk_inline, { desc = "Preview Hunk Inline" })
 	map("n", "<leader>tw", gitsigns.toggle_word_diff, { desc = "Toggle Word Diff" })
 
-	-- Text object
+	-- Text objechhht
 	map({ "o", "x" }, "ih", gitsigns.select_hunk, { desc = "Select Hunk" })
 end
 
 return {
 	"lewis6991/gitsigns.nvim",
 	opts = {
+		on_attach = on_attach,
 		signs = {
 			add = { text = "+" },
 			change = { text = "~" },
@@ -108,6 +109,5 @@ return {
 			row = 0,
 			col = 1,
 		},
-		on_attach = on_attach,
 	},
 }

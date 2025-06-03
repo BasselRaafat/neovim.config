@@ -5,7 +5,7 @@ return {
 	---@type ibl.config
 	opts = {
 		indent = {
-			char = "▏", -- This is a slightly thinner char than the default one, check :help ibl.config.indent.char
+			char = "▏",
 		},
 		scope = {
 			show_start = false,
@@ -14,6 +14,6 @@ return {
 	},
 	config = function(_, opts)
 		require("ibl").setup(opts)
-		vim.api.nvim_set_hl(0, "IblIndent", { fg = "#555555", nocombine = true })
+		vim.api.nvim_set_hl(0, "IblIndent", { fg = "#555557", nocombine = true })
 	end,
 }
