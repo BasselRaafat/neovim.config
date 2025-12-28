@@ -1,6 +1,7 @@
 require("config.options")
-require("config.mapping")
 require("config.floaTermainl")
 require("config.lazy")
+require("config.mapping")
 require("config.lsp.init")
 require("config.autocmd")
+require("config.HighlightGroups")

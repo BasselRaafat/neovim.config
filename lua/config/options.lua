@@ -4,6 +4,8 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
+vim.o.timeoutlen = 250
+
 vim.opt.number = true
 
 vim.opt.termguicolors = true
@@ -36,12 +38,6 @@ vim.opt.timeoutlen = 300
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
--- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
--- vim.opt.list = true
--- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
-
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = "split"
 
@@ -52,30 +48,22 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 5
 vim.opt.relativenumber = true
 
--- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
--- vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
-
---vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
-
--- put this after lazy setup
-
--- (method 1, For heavy lazyloaders)
---dofile(vim.g.base46_cache .. "defaults")
---dofile(vim.g.base46_cache .. "statusline")
-
--- (method 2, for non lazyloaders) to load all highlights at once
---for _, v in ipairs(vim.fn.readdir(vim.g.base46_cache)) do
---	dofile(vim.g.base46_cache .. v)
---end
-
 vim.o.foldcolumn = "1" -- '0' is not bad
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
-vim.o.timeoutlen = 250
--- vim.o.cmdheight = 0
+
 vim.o.laststatus = 3
 vim.opt.fillchars = { eob = " " }
 vim.o.fillchars = "eob: ,fold: ,foldopen:,foldsep: ,foldclose:"
--- vim.lsp.set_log_level("debug")
---
+
+if vim.fn.has("win32") == 1 then
+	vim.opt.shell = "pwsh.exe"
+	vim.opt.shellcmdflag =
+		"-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;$PSStyle.Formatting.Error = '';$PSStyle.Formatting.ErrorAccent = '';$PSStyle.Formatting.Warning = '';$PSStyle.OutputRendering = 'PlainText';"
+	vim.opt.shellredir = "2>&1 | Out-File -Encoding utf8 %s; exit $LastExitCode"
+	vim.opt.shellpipe = "2>&1 | Out-File -Encoding utf8 %s; exit $LastExitCode"
+	vim.opt.shellquote = ""
+	vim.opt.shellxquote = ""
+end
+vim.o.backupcopy = "yes"

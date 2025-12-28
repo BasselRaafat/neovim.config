@@ -1,9 +1,11 @@
-return { -- Highlight, edit, and navigate code
+---@module "lazy"
+---@type LazySpec
+return {
 	"nvim-treesitter/nvim-treesitter",
+	event = "VeryLazy",
 	build = ":TSUpdate",
-	main = "nvim-treesitter.configs", -- Sets main module to use for opts
-	dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
-	-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+	main = "nvim-treesitter.configs",
+	dependencies = "nvim-treesitter/nvim-treesitter-textobjects",
 	opts = {
 		ensure_installed = {
 			"bash",
@@ -17,8 +19,8 @@ return { -- Highlight, edit, and navigate code
 			"query",
 			"vim",
 			"vimdoc",
+			"c_sharp",
 		},
-		-- Autoinstall languages that are not installed
 		auto_install = true,
 		highlight = {
 			enable = true,
@@ -31,9 +33,9 @@ return { -- Highlight, edit, and navigate code
 		incremental_selection = {
 			enable = true,
 			keymaps = {
-				init_selection = "<leader>vi",
-				node_incremental = "<CR>",
-				scope_incremental = "<Leader><CR>",
+				init_selection = "<C-space>",
+				node_incremental = "<C-space>",
+				scope_incremental = false,
 				node_decremental = "<BS>",
 			},
 		},
@@ -126,9 +128,6 @@ return { -- Highlight, edit, and navigate code
 					["[S"] = { query = "@local.scope", query_group = "locals", desc = "Previous scope End" },
 					["[Z"] = { query = "@fold", query_group = "folds", desc = "Previous fold End" },
 				},
-				-- Below will go to either the start or the end, whichever is closer.
-				-- Use if you want more granular movements
-				-- Make it even more gradual by adding multiple queries and regex.
 				goto_next = {
 					["]i"] = { query = "@conditional.outer", desc = "Next Condition" },
 				},

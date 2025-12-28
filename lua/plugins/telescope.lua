@@ -1,69 +1,59 @@
 local actions = require("telescope.actions")
-return { -- Fuzzy Finder (files, lsp, etc)
+---@module "lazy"
+---@type LazySpec
+return {
 	"nvim-telescope/telescope.nvim",
 	event = "VimEnter",
 	branch = "0.1.x",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-		{ -- If encountering errors, see telescope-fzf-native README for installation instructions
+		{
 			"nvim-telescope/telescope-fzf-native.nvim",
-
-			-- `build` is used to run some command when the plugin is installed/updated.
-			-- This is only run then, not every time Neovim starts up.
 			build = "make",
-
-			-- `cond` is a condition used to determine whether this plugin should be
-			-- installed and loaded.
 			cond = function()
 				return vim.fn.executable("make") == 1
 			end,
 		},
 		{ "nvim-telescope/telescope-ui-select.nvim" },
-
-		-- Useful for getting pretty icons, but requires a Nerd Font.
 		{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
 	},
-	config = function()
-		-- Telescope is a fuzzy finder that comes with a lot of different things that
-		-- it can fuzzy find! It's more than just a 'file finder', it can search
-		-- many different aspects of Neovim, your workspace, LSP, and more!
-		--
-		-- The easiest way to use Telescope, is to start by doing something like:
-		--  :Telescope help_tags
-		--
-		-- After running this command, a window will open up and you're able to
-		-- type in the prompt window. You'll see a list of `help_tags` options and
-		-- a corresponding preview of the help.
-		--
-		-- Two important keymaps to use while in Telescope are:
-		--  - Insert mode: <c-/>
-		--  - Normal mode: ?
-		--
-		-- This opens a window that shows you all of the keymaps for the current
-		-- Telescope picker. This is really useful to discover what Telescope can
-		-- do as well as how to actually do it!
 
-		-- [[ Configure Telescope ]]
-		-- See `:help telescope` and `:help telescope.setup()`
+	config = function()
 		require("telescope").setup({
-			-- You can put your default / updates / etc. in here
-			--  All the info you're looking for is in `:help telescope.setup()`
-			--
 			defaults = {
-				layout_strategy = "horizontal", -- Choose a layout ('horizontal', 'vertical', 'center', 'flex')
+				get_selection_window = function()
+					local wins = vim.api.nvim_list_wins()
+					table.insert(wins, 1, vim.api.nvim_get_current_win())
+					for _, win in ipairs(wins) do
+						local buf = vim.api.nvim_win_get_buf(win)
+						if vim.bo[buf].buftype == "" then
+							return win
+						end
+					end
+					return 0
+				end,
+				prompt_prefix = "   ",
+				-- selection_caret = " ",
+				selection_caret = " ",
+				entry_prefix = " ",
+				multi_icon = "+ ",
+				sorting_strategy = "ascending",
+				layout_strategy = "horizontal",
 				layout_config = {
+					prompt_position = "top",
 					horizontal = {
-						preview_width = 0.5, -- Adjust the width of the preview window (as a fraction of the total width)
-						results_width = 0.5, -- Adjust the width of the results window (optional)
+						-- preview_width = 0.5,
+						results_width = 0.55,
 					},
 					vertical = {
-						preview_height = 0.7, -- Adjust the height of the preview window (as a fraction of the total height)
+						preview_height = 0.7,
 					},
-					width = 0.8, -- Overall width of Telescope (as a fraction of the screen width)
-					height = 0.8, -- Overall height of Telescope (as a fraction of the screen height)
+					width = 0.8,
+					height = 0.8,
 				},
 				mappings = {
 					n = {
+						["q"] = require("telescope.actions").close,
 						["j"] = actions.move_selection_next,
 						["k"] = actions.move_selection_previous,
 						["<c-w>"] = actions.delete_buffer,
@@ -79,7 +69,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
 				},
 			},
 			-- pickers = {}
-			--dwi--jj^ kde.eEf
+			extensions_list = { "themes", "terms" },
 			extensions = {
 				["ui-select"] = {
 					require("telescope.themes").get_dropdown({}),
@@ -109,6 +99,8 @@ return { -- Fuzzy Finder (files, lsp, etc)
 			builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
 				winblend = 10,
 				previewer = false,
+				selection_caret = "",
+				entry_prefix = "",
 			}))
 		end, { desc = "[/] Fuzzily search in current buffer" })
 

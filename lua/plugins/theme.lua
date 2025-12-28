@@ -1,64 +1,44 @@
+---@module "lazy"
+---@type LazySpec[]
 return {
 	{
 		"loctvl842/monokai-pro.nvim",
 		priority = 1000,
-		init = function()
-			vim.cmd.colorscheme("monokai-pro")
-		end,
+		lazy = false,
+		-- opts = {
+		-- 	devicons = true,
+		-- 	transparent_background = false,
+		-- 	filter = "spectrum",
+		-- 	background_clear = { "nvim-tree", "telescope", "nvim-navic", "statuscol.nvim", "fidget.nvim" },
+		-- },
 		config = function()
 			require("monokai-pro").setup({
 				devicons = true,
-				transparent_background = true,
-				background_clear = { "nvim-tree", "telescope" },
-				plugins = {
-					indent_blankline = {
-						context_highlight = "pro",
-						context_start_underline = true,
-					},
-				},
+				transparent_background = false,
+				filter = "spectrum",
+				background_clear = { "nvim-tree", "telescope", "nvim-navic", "statuscol.nvim", "fidget.nvim" },
 			})
-			vim.cmd.colorscheme("monokai-pro")
+			vim.cmd([[colorscheme monokai-pro]])
 		end,
 	},
-	-- {
-	-- 	"cpea2506/one_monokai.nvim",
-	-- 	-- priority = 1000,
-	-- 	-- init = function()
-	-- 	-- 	vim.cmd.colorscheme("one_monokai")
-	-- 	-- end,
-	-- 	config = function()
-	-- 		require("one_monokai").setup({
-	-- 			transparent = true,
-	-- 			-- italics = true,
-	-- 		})
-	-- 	end,
-	-- },
+	{
+		"cpea2506/one_monokai.nvim",
+		lazy = true,
+		opts = { transparent = true },
+	},
 	{
 		"navarasu/onedark.nvim",
-
-		-- priority = 1000,
-		-- init = function()
-		-- 	vim.cmd.colorscheme("onedark")
-		-- end,
-		config = function()
-			require("onedark").setup({
-				style = "warmer",
-				transparent = true,
-			})
-		end,
+		opts = {
+			style = "warmer",
+			transparent = true,
+		},
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
-		-- priority = 1000,
-		-- init = function()
-		-- 	vim.cmd.colorscheme("gruvbox")
-		-- end,
-		config = function()
-			require("gruvbox").setup({
-				dim_inactive = false,
-				contrast = "soft", -- can be "hard", "soft" or empty string
-				transparent_mode = true,
-			})
-		end,
+		opts = {
+			dim_inactive = false,
+			contrast = "soft",
+			transparent_mode = true,
+		},
 	},
 }
