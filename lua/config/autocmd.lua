@@ -1,28 +1,11 @@
+local on_attach = require("config.lsp.on-attach").on_attach
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
 	callback = function()
 		vim.hl.on_yank()
 	end,
 })
-
--- vim.api.nvim_create_autocmd({ "InsertLeave" }, {
--- 	pattern = "*",
--- 	callback = function()
--- 		local clients = vim.lsp.get_clients({ name = "roslyn" })
--- 		if not clients or #clients == 0 then
--- 			return
--- 		end
--- 		print(#clients)
--- 		local ctx = clients[1]
--- 		local client = assert(vim.lsp.get_client_by_id(ctx.id))
--- 		local buffers = vim.lsp.get_buffers_by_client_id(ctx.id)
--- 		for _, buf in ipairs(buffers) do
--- 			local params = { textDocument = vim.lsp.util.make_text_document_params(buf) }
--- 			client:request("textDocument/diagnostic", params, nil, buf)
--- 		end
--- 	end,
--- })
 
 -- Load fold state
 vim.api.nvim_create_autocmd("BufReadPost", {
@@ -73,3 +56,38 @@ vim.api.nvim_create_autocmd("User", {
 		end
 	end,
 })
+--
+-- vim.api.nvim_create_autocmd("FileType", {
+-- 	pattern = { "cs" },
+-- 	callback = function()
+-- 		vim.treesitter.start()
+-- 	end,
+-- })
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if not client then
+			return
+		end
+		-- easy-dotnet registers Roslyn as "easy_dotnet"
+		if client.name == "easy_dotnet" then
+			on_attach(client, args.buf)
+		end
+	end,
+})
+-- vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+-- 	pattern = "*",
+-- 	callback = function(args)
+-- 		local clients = vim.lsp.get_clients({ name = "easy_dotnet" })
+-- 		if not clients or #clients == 0 then
+-- 			return
+-- 		end
+--
+-- 		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+-- 		local buffers = vim.lsp.get_buffers_by_client_id(args.data.client_id)
+-- 		for _, buf in ipairs(buffers) do
+-- 			local params = { textDocument = vim.lsp.util.make_text_document_params(buf) }
+-- 			client:request("textDocument/diagnostic", params, nil, buf)
+-- 		end
+-- 	end,
+-- })

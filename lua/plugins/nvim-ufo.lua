@@ -5,6 +5,7 @@ return {
 	"kevinhwang91/nvim-ufo",
 	event = { "BufReadPost", "BufNewFile" },
 	dependencies = { "kevinhwang91/promise-async" },
+	enabled = true,
 	config = function()
 		local ufo = require("ufo")
 		ufo.setup({

@@ -33,10 +33,6 @@ return {
 					"${3rd}/luv/library",
 					"${3rd}/busted/library",
 				},
-				--NOTE: slower
-				-- library = {
-				--   vim.api.nvim_get_runtime_file('', true),
-				-- }
 			},
 		},
 	},

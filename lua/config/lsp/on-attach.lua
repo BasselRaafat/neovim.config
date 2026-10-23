@@ -41,7 +41,7 @@ M.on_attach = function(client, buf)
 
 	--highlight symple under cursor
 	if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
-		local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+		local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
 		vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 			buffer = buf,
 			group = highlight_augroup,
@@ -55,10 +55,10 @@ M.on_attach = function(client, buf)
 		})
 
 		vim.api.nvim_create_autocmd("LspDetach", {
-			group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+			group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
 			callback = function(event)
 				vim.lsp.buf.clear_references()
-				vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event.buf })
+				vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = event.buf })
 			end,
 		})
 	end
@@ -66,9 +66,5 @@ M.on_attach = function(client, buf)
 	if client and client.server_capabilities.documentSymbolProvider then
 		navic.attach(client, buf)
 	end
-
-	-- require("lsp_signature").on_attach({
-	-- ... setup options here ...
-	-- }, buf)
 end
 return M

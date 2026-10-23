@@ -32,7 +32,6 @@ local function create_floating_window(opts)
 		style = "minimal", -- No borders or extra UI elements
 		border = "rounded",
 	}
-
 	-- Create the floating window
 	local win = vim.api.nvim_open_win(buf, true, win_config)
 
@@ -42,16 +41,21 @@ end
 local toggle_terminal = function()
 	if not vim.api.nvim_win_is_valid(state.floating.win) then
 		state.floating = create_floating_window({ buf = state.floating.buf })
-		if vim.bo[state.floating.buf].buftype ~= "terminal" then
+		local buf = state.floating.buf
+		if vim.bo[buf].buftype ~= "terminal" then
 			local command = { "edit", "term://pwsh" }
 			vim.cmd(vim.fn.join(command, " "))
 		end
+		-- vim.bo[buf].buftype = "terminal"
+		print(buf)
+
+		vim.bo[buf].bufhidden = "hide"
+		vim.bo[buf].swapfile = false
+		vim.bo[buf].buflisted = false
 	else
 		vim.api.nvim_win_hide(state.floating.win)
 	end
 	vim.cmd("normal i")
 end
 
--- Example usage:
--- Create a floating window with default dimensions
 vim.api.nvim_create_user_command("Floaterminal", toggle_terminal, {})

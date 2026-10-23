@@ -5,16 +5,22 @@ local on_attach = require("plugins.util.nvim-tree").on_attach
 return {
 	"nvim-tree/nvim-tree.lua",
 	version = "*",
-	lazy = false,
-	priority = 2000,
+	enabled = true,
+	lazy = true,
+	-- priority = 2000,
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
-		"GustavEikaas/easy-dotnet.nvim",
+		-- "GustavEikaas/easy-dotnet.nvim",
 	},
 	config = function()
 		require("nvim-tree").setup({
 			on_attach = on_attach,
 			hijack_cursor = true,
+			actions = {
+				open_file = {
+					quit_on_open = true,
+				},
+			},
 			view = {
 				side = "right",
 				cursorline = true,
@@ -25,24 +31,13 @@ return {
 					enable = true,
 					inline_arrows = true,
 				},
-				-- icons = {
-				-- 	show = {
-				-- 		file = true,
-				-- 		folder = true,
-				-- 		folder_arrow = true,
-				-- 		git = true,
-				-- 	},
-				-- 	web_devicons = {
-				-- 		folder = {
-				-- 			enable = true,
-				-- 		},
-				-- 	},
-				-- },
 			},
 			git = {
+				enable = true,
 				timeout = 1550,
 			},
 			diagnostics = {
+				enable = true,
 				debounce_delay = 1000,
 				severity = {
 					min = vim.diagnostic.severity.ERROR,

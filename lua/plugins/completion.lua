@@ -4,9 +4,12 @@ return {
 	{
 		"saghen/blink.cmp",
 		event = { "InsertEnter", "CmdlineEnter" },
+		enabled = true,
 		-- optional: provides snippets for the snippet source
 		dependencies = {
-			"onsails/lspkind.nvim",
+			{ "onsails/lspkind.nvim", opts = {
+				preset = "codicons",
+			} },
 			"nvim-tree/nvim-web-devicons",
 			"echasnovski/mini.nvim",
 			"rafamadriz/friendly-snippets",
@@ -24,14 +27,8 @@ return {
 		---@type blink.cmp.Config
 		opts = {
 			cmdline = {
-				keymap = {
-					["<Tab>"] = { "show", "accept" },
-				},
-				completion = {
-					menu = {
-						auto_show = true,
-					},
-				},
+				keymap = { preset = "inherit" },
+				completion = { menu = { auto_show = true } },
 			},
 
 			keymap = {
@@ -42,31 +39,66 @@ return {
 			appearance = {
 				highlight_ns = vim.api.nvim_create_namespace("blink_cmp"),
 				nerd_font_variant = "normal",
-				use_nvim_cmp_as_default = true,
+				use_nvim_cmp_as_default = false,
 			},
 
 			-- (Default) Only show the documentation popup when manually triggered
 			completion = {
+				accept = { auto_brackets = { enabled = false } },
 				keyword = { range = "full" },
 				menu = {
-					enabled = true,
-					min_width = 18,
-					max_height = 10,
 					draw = {
-
+						-- treesitter = {},
 						align_to = "label",
-						columns = {
-							{ "kind_icon" },
-							{ "label", "kind", gap = 1 },
-						},
-
 						components = {
-							label = {
-								width = { max = 15 },
+							kind_icon = {
+								-- text = function(ctx)
+								-- 	return require("lspkind").symbol_map[ctx.kind] or ""
+								-- end,
+								text = function(ctx)
+									if ctx.source_name ~= "Path" then
+										return (require("lspkind").symbol_map[ctx.kind] or "") .. ctx.icon_gap
+									end
+
+									local is_unknown_type = vim.tbl_contains(
+										{ "link", "socket", "fifo", "char", "block", "unknown" },
+										ctx.item.data.type
+									)
+									local mini_icon, _ = require("mini.icons").get(
+										is_unknown_type and "os" or ctx.item.data.type,
+										is_unknown_type and "" or ctx.label
+									)
+
+									return (mini_icon or ctx.kind_icon) .. ctx.icon_gap
+								end,
+
+								highlight = function(ctx)
+									if ctx.source_name ~= "Path" then
+										return ctx.kind_hl
+									end
+
+									local is_unknown_type = vim.tbl_contains(
+										{ "link", "socket", "fifo", "char", "block", "unknown" },
+										ctx.item.data.type
+									)
+									local mini_icon, mini_hl = require("mini.icons").get(
+										is_unknown_type and "os" or ctx.item.data.type,
+										is_unknown_type and "" or ctx.label
+									)
+									return mini_icon ~= nil and mini_hl or ctx.kind_hl
+								end,
 							},
 						},
-						gap = 0,
+						columns = {
+							{ "kind_icon" },
+							{ "label", "label_description", gap = 1 },
+							-- { "label" },
+							{ "kind" },
+							-- { "source_name" },
+							-- { "source_id" },
+						},
 					},
+
 					auto_show = true,
 				},
 				ghost_text = { enabled = true },
@@ -85,12 +117,13 @@ return {
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer", "lazydev", "easy-dotnet" },
+				--"omni" },
 				providers = {
 					["easy-dotnet"] = {
 						name = "easy-dotnet",
 						enabled = true,
 						module = "easy-dotnet.completion.blink",
-						score_offset = 10000,
+						-- score_offset = 10000,
 						async = true,
 					},
 					["lazydev"] = {
@@ -108,10 +141,11 @@ return {
 			signature = {
 				enabled = true,
 				window = {
-					min_width = 1,
+					max_width = 60,
 					-- max_width = 100,
 					max_height = 5,
-					scrollbar = false,
+					winblend = 1,
+					scrollbar = true,
 					show_documentation = true,
 				},
 			},

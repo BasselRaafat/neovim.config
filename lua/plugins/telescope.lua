@@ -4,7 +4,7 @@ local actions = require("telescope.actions")
 return {
 	"nvim-telescope/telescope.nvim",
 	event = "VimEnter",
-	branch = "0.1.x",
+	-- tag = "*",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		{
@@ -39,6 +39,7 @@ return {
 				multi_icon = "+ ",
 				sorting_strategy = "ascending",
 				layout_strategy = "horizontal",
+				path_display = { "smart" },
 				layout_config = {
 					prompt_position = "top",
 					horizontal = {
@@ -63,16 +64,30 @@ return {
 					i = {
 						["<esc>"] = actions.close,
 						["<C-h>"] = "which_key",
-						["<c-w>"] = actions.delete_buffer,
+						["<c-d>"] = actions.delete_buffer,
 						["<M-v>"] = actions.select_vertical,
 					},
 				},
 			},
-			-- pickers = {}
-			extensions_list = { "themes", "terms" },
+			pickers = {
+				find_files = {
+					hidden = true,
+				},
+				live_grep = {
+					additional_args = function(_)
+						return { "--hidden" }
+					end,
+				},
+			},
 			extensions = {
 				["ui-select"] = {
 					require("telescope.themes").get_dropdown({}),
+				},
+				fzf = {
+					fuzzy = true,
+					override_generic_sorter = true, -- override the generic sorter
+					override_file_sorter = true, -- override the file sorter
+					case_mode = "smart_case",
 				},
 			},
 		})

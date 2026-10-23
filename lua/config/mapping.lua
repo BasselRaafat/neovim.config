@@ -13,7 +13,6 @@ vim.keymap.set("n", "<C-w>l", "<C-w><C-l>", { desc = "Move focus to the right wi
 vim.keymap.set("n", "<C-w>j", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-w>k", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
-vim.keymap.set("n", "<leader>td", vim.diagnostic.open_float, { desc = "[T]Open [D]iagnostic float" })
 vim.keymap.set({ "n", "t" }, "<leader>tf", "<cmd>Floaterminal<CR>", { desc = "Float Terminal" })
 
 vim.keymap.set("v", "<M-j>", ":m'>+1<CR>gv=gv")
