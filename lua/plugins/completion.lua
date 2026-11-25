@@ -13,7 +13,7 @@ return {
 			"nvim-tree/nvim-web-devicons",
 			"echasnovski/mini.nvim",
 			"rafamadriz/friendly-snippets",
-			"GustavEikaas/easy-dotnet.nvim",
+			-- "GustavEikaas/easy-dotnet.nvim",
 		},
 		-- use a release tag to download pre-built binaries
 		version = "1.*",
@@ -116,16 +116,23 @@ return {
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer", "lazydev", "easy-dotnet" },
+				default = {
+					"lsp",
+					"path",
+					"snippets",
+					"buffer",
+					"lazydev",
+					--"easy-dotnet"
+				},
 				--"omni" },
 				providers = {
-					["easy-dotnet"] = {
-						name = "easy-dotnet",
-						enabled = true,
-						module = "easy-dotnet.completion.blink",
-						-- score_offset = 10000,
-						async = true,
-					},
+					-- ["easy-dotnet"] = {
+					-- 	name = "easy-dotnet",
+					-- 	enabled = true,
+					-- 	module = "easy-dotnet.completion.blink",
+					-- 	-- score_offset = 10000,
+					-- 	async = true,
+					-- },
 					["lazydev"] = {
 						name = "LazyDev",
 						module = "lazydev.integrations.blink",

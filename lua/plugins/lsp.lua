@@ -1,4 +1,4 @@
-local servers = require("config.lsp.servers").servers
+-- local servers = require("config.lsp.servers").servers
 local ensure_installed = require("config.lsp.servers").ensure_installed
 
 ---@module "lazy"

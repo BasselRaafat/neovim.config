@@ -34,7 +34,7 @@ return {
 			lua = { "stylua" },
 			javascript = { "prettierd", "prettier", stop_after_first = true },
 			typescript = { "prettierd", "prettier", stop_after_first = true },
-			cs = { "csharpier" },
+			cs = { "csharpier " },
 			json = { "prettierd", "prettier", stop_after_first = true },
 			html = { "prettierd", "prettier", stop_after_first = true },
 			yaml = { "prettierd", "prettier", stop_after_first = true },

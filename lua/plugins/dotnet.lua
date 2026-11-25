@@ -5,7 +5,7 @@ return {
 	{
 		"GustavEikaas/easy-dotnet.nvim",
 		ft = { "cs", "cshtml", "xml", "csproj" },
-		enabled = true,
+		enabled = false,
 		dependencies = {
 			"mfussenegger/nvim-dap",
 			"nvim-telescope/telescope.nvim",
